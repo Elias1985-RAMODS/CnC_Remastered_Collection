@@ -21,7 +21,7 @@ jobs:
           $sdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include" | Sort-Object Name -Descending | Select-Object -First 1).Name
           $toolset = (Get-ChildItem "C:\Program Files\Microsoft Visual Studio\*\*\MSBuild\Microsoft\VC\v*\Platforms\x64\PlatformToolsets\v14*" -Directory | Sort-Object Name -Descending | Select-Object -First 1).Name
           $proj = [xml](Get-Content "REDALERT/RedAlert.vcxproj")
-          $cfg = $proj.Project.ItemGroup.ProjectConfiguration | Where-Object { $_.Configuration -like "*Release*" -and $_.Platform -eq "x64" } | Select-Object -First 1
+          $cfg = $proj.Project.ItemGroup.ProjectConfiguration | Where-Object { $_.Configuration -like "*Release*" -and $_.Platform -ne "Win32" } | Select-Object -First 1
           $conf = $cfg.Configuration
           $plat = $cfg.Platform
           $env:CL = "/DWINDOWS_IGNORE_PACKING_MISMATCH /permissive"
@@ -32,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RedAlert-DLL
-          path: "**/x64/**/RedAlert.dll"
+          path: "**/RedAlert.dll"
