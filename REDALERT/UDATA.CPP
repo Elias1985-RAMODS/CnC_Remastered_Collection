@@ -768,6 +768,36 @@ true,//		false,				// Is this a gigundo-rotund-enormous unit?
 	0,							// Turret center offset along body centerline.
 	MISSION_HUNT			// ORDERS:		Default order to give new unit.
 );
+// Flame Tank
+static UnitTypeClass const UnitFtnk(
+	UNIT_FTNK,
+	TXT_NONE,				// NAME:			Text name of this unit type.
+	"FTNK",					// NAME:			Text name of this unit type.
+	ANIM_ART_EXP1,			// EXPLOSION:	Type of explosion when destroyed.
+	REMAP_NORMAL,			// Sidebar remap logic.
+	0x0040,					// Vertical offset.
+	0x0060,					// Primary weapon offset along turret centerline.
+	0x0000,					// Primary weapon lateral offset along turret centerline.
+	0x0000,					// Secondary weapon offset along turret centerline.
+	0x0000,					// Secondary weapon lateral offset along turret centerline.
+		true,					// Can this be a goodie surprise from a crate?
+		false,				// Always use the given name for the vehicle?
+		true,					// Can this unit squash infantry?
+		false,				// Does this unit harvest Tiberium?
+		false,				// Is invisible to radar?
+		false,				// Is it insignificant (won't be announced)?
+		false,				// Is it equipped with a combat turret?
+		false,				// Does it have a rotating radar dish?
+		false,				// Is there an associated firing animation?
+		false,				// Must the turret be in a locked down position while moving?
+		false,				// Is this a gigundo-rotund-enormous unit?
+		false,				// Does the unit have a constant animation?
+		false,				// Is the unit capable of jamming radar?
+		false,				// Is the unit a mobile gap generator?
+	32,						// Rotation stages.
+	0,							// Turret center offset along body centerline.
+	MISSION_HUNT			// ORDERS:		Default order to give new unit.
+);
 
 #endif
 #endif
@@ -956,6 +986,7 @@ void UnitTypeClass::Init_Heap(void)
 	new UnitTypeClass(UnitPhase);			//	UNIT_PHASETRANSPORT
 #endif
 #endif
+	new UnitTypeClass(UnitFtnk);			//	UNIT_FTNK
 
 }
 
