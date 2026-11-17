@@ -21,6 +21,7 @@ jobs:
           $toolset = (Get-ChildItem "C:\Program Files\Microsoft Visual Studio\*\*\MSBuild\Microsoft\VC\v*\Platforms\x64\PlatformToolsets\*" -Directory | Sort-Object Name -Descending | Select-Object -First 1).Name
           $proj = Get-Content "REDALERT/RedAlert.vcxproj" -Raw
           if ($proj -match '<Platform>(Win64|x64|Win32)</Platform>') { $plat = $matches[1] } else { $plat = "x64" }
+          $env:CL = "/DWINDOWS_IGNORE_PACKING_MISMATCH /permissive"
           echo "Using SDK: $sdk | Toolset: $toolset | Platform: $plat"
           msbuild REDALERT/RedAlert.vcxproj /p:Configuration=Release /p:Platform=$plat /p:WindowsTargetPlatformVersion=$sdk /p:PlatformToolset=$toolset
 
