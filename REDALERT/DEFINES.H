@@ -1643,6 +1643,7 @@ typedef enum UnitType : char {
 #endif
 #endif
 
+	UNIT_FTNK,
 	UNIT_COUNT,
 	UNIT_FIRST=0
 #ifdef FIXIT_CSII	//	checked - ajw 9/28/98
