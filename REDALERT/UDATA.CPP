@@ -1096,7 +1096,7 @@ void UnitTypeClass::Prep_For_Add(void)
  * HISTORY:                                                                                    *
  *   05/28/1994 JLB : Created.                                                                 *
  *=============================================================================================*/
-void UnitTypeClass::One_Time(void)
+	void UnitTypeClass::One_Time(void)
 {
 	for (UnitType index = UNIT_FIRST; index < UNIT_COUNT; index++) {
 		char	fullname[_MAX_FNAME+_MAX_EXT];
@@ -1107,29 +1107,22 @@ void UnitTypeClass::One_Time(void)
 		void const * ptr;		// Shape pointer and set pointer.
 
 		int largest = 0;
-//		if (uclass.Level != -1) {
-//		if (uclass.IsBuildable) {
 
-			/*
-			**	Fetch the supporting data files for the unit.
-			*/
-			sprintf(buffer, "%sICON", uclass.Graphic_Name());
-			_makepath(fullname, NULL, NULL, buffer, ".SHP");
-			#ifndef NDEBUG
-				RawFileClass datafile(fullname);
-				if (datafile.Is_Available()) {
-					((void const *&)uclass.CameoData) = Load_Alloc_Data(datafile);
-				} else {
-					((void const *&)uclass.CameoData) = MFCD::Retrieve(fullname);
-				}
-			#else
+		// Fetch the supporting data files for the unit.
+		sprintf(buffer, "%sICON", uclass.Graphic_Name());
+		_makepath(fullname, NULL, NULL, buffer, ".SHP");
+		#ifndef NDEBUG
+			RawFileClass datafile(fullname);
+			if (datafile.Is_Available()) {
+				((void const *&)uclass.CameoData) = Load_Alloc_Data(datafile);
+			} else {
 				((void const *&)uclass.CameoData) = MFCD::Retrieve(fullname);
-			#endif
-//		}
+			}
+		#else
+			((void const *&)uclass.CameoData) = MFCD::Retrieve(fullname);
+		#endif
 
-		/*
-		**	Fetch a pointer to the unit's shape data.
-		*/
+		// Fetch a pointer to the unit's shape data.
 		_makepath(fullname, NULL, NULL, uclass.Graphic_Name(), ".SHP");
 		#ifndef NDEBUG
 			RawFileClass shpfile(fullname);
@@ -1142,6 +1135,12 @@ void UnitTypeClass::One_Time(void)
 			ptr = MFCD::Retrieve(fullname);
 		#endif
 
+		if (ptr == NULL) {
+			ptr = As_Reference(UNIT_MTANK).ImageData;
+		}
+		if (uclass.CameoData == NULL) {
+			((void const *&)uclass.CameoData) = As_Reference(UNIT_MTANK).CameoData;
+		}
 		((void const *&)uclass.ImageData) = ptr;
 		if (ptr != NULL) {
 
