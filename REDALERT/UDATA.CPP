@@ -771,7 +771,7 @@ true,//		false,				// Is this a gigundo-rotund-enormous unit?
 // Flame Tank
 static UnitTypeClass const UnitFtnk(
 	UNIT_FTNK,
-	TXT_NONE,				// NAME:			Text name of this unit type.
+	TXT_MTANK,				// NAME:			Text name of this unit type.
 	"FTNK",					// NAME:			Text name of this unit type.
 	ANIM_ART_EXP1,			// EXPLOSION:	Type of explosion when destroyed.
 	REMAP_NORMAL,			// Sidebar remap logic.
