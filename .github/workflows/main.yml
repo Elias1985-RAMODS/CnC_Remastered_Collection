@@ -20,12 +20,16 @@ jobs:
           (Get-Content "REDALERT/RedAlert.vcxproj") -replace '<TreatWarningAsError>true</TreatWarningAsError>', '<TreatWarningAsError>false</TreatWarningAsError>' | Set-Content "REDALERT/RedAlert.vcxproj"
           $sdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include" | Sort-Object Name -Descending | Select-Object -First 1).Name
           $toolset = (Get-ChildItem "C:\Program Files\Microsoft Visual Studio\*\*\MSBuild\Microsoft\VC\v*\Platforms\x64\PlatformToolsets\v14*" -Directory | Sort-Object Name -Descending | Select-Object -First 1).Name
+          $proj = [xml](Get-Content "REDALERT/RedAlert.vcxproj")
+          $cfg = $proj.Project.ItemGroup.ProjectConfiguration | Where-Object { $_.Configuration -like "*Release*" } | Select-Object -First 1
+          $conf = $cfg.Configuration
+          $plat = $cfg.Platform
           $env:CL = "/DWINDOWS_IGNORE_PACKING_MISMATCH /permissive"
-          echo "Using SDK: $sdk | Toolset: $toolset"
-          msbuild CnCRemastered.sln /t:RedAlert /p:Configuration=Release /p:Platform=x64 /p:WindowsTargetPlatformVersion=$sdk /p:PlatformToolset=$toolset
+          echo "Using SDK: $sdk | Toolset: $toolset | Config: $conf | Platform: $plat"
+          msbuild REDALERT/RedAlert.vcxproj /p:Configuration=$conf /p:Platform=$plat /p:WindowsTargetPlatformVersion=$sdk /p:PlatformToolset=$toolset
 
       - name: Upload RedAlert.dll
         uses: actions/upload-artifact@v4
         with:
           name: RedAlert-DLL
-          path: "**/x64/**/RedAlert.dll"
+          path: "**/RedAlert.dll"
