@@ -19,9 +19,9 @@ jobs:
         run: |
           (Get-Content "REDALERT/RedAlert.vcxproj") -replace '<TreatWarningAsError>true</TreatWarningAsError>', '<TreatWarningAsError>false</TreatWarningAsError>' | Set-Content "REDALERT/RedAlert.vcxproj"
           (Get-Content "REDALERT/Resource/RedAlert.rc") -replace 'afxres.h', 'windows.h' | Set-Content "REDALERT/Resource/RedAlert.rc"
-          $sdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include\10.*" -Directory | Sort-Object Name -Descending | Select-Object -First 1).Name
+          $sdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include\10.*" -Directory | Sort-Object Name | Select-Object -First 1).Name
           $toolset = (Get-ChildItem "C:\Program Files\Microsoft Visual Studio\*\*\MSBuild\Microsoft\VC\v*\Platforms\Win32\PlatformToolsets\v14*" -Directory | Sort-Object Name | Select-Object -First 1).Name
-          $env:CL = "/DWINDOWS_IGNORE_PACKING_MISMATCH /permissive"
+          $env:CL = "/permissive"
           echo "Using SDK: $sdk | Toolset: $toolset"
           msbuild REDALERT/RedAlert.vcxproj /p:Configuration=Release /p:Platform=Win32 /p:WindowsTargetPlatformVersion=$sdk /p:PlatformToolset=$toolset
 
